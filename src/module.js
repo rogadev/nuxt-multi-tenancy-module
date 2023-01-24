@@ -2,20 +2,12 @@ const { resolve } = require('path')
 
 module.exports = function () {
   const options = this.options.multiTenancyModule
-  if (options) {
-    if (!Array.isArray(options.tenants)) {
-      console.error(
-        'multiTenancyModule tenants must be an array of tenant names'
-      )
-      return
-    }
-    if (!options.defaultTenant) {
-      console.warn('multiTenancyModule default tenant has not been specified')
-    }
-  } else {
-    console.error('multiTenancyModule option must be specified in Nuxt config')
-    return
-  }
+  
+  if (!options) return console.error('multiTenancyModule option must be specified in Nuxt config')
+  
+  if (!Array.isArray(options.tenants)) return console.error('multiTenancyModule tenants must be an array of tenant names')
+  
+  if (!options.defaultTenant) console.warn('multiTenancyModule default tenant has not been specified')
 
   this.addPlugin({
     src: resolve(__dirname, 'plugin.js'),
